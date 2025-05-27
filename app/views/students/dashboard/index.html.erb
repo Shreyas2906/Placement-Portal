@@ -1,0 +1,60 @@
+<header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; border-bottom: 1px solid #ccc;">
+  <h1 style="margin: 0; font-size: 24px;">College Placement Portal</h1>
+  <div>
+    Hello, <%= current_student.email %> | <%= button_to "Sign Out", destroy_student_session_path, method: :delete %>
+  </div>
+</header>
+
+<h2>Available Job Roles</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Company</th>
+      <th>Location</th>
+      <th>CTC</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @job_roles.each do |job| %>
+      <tr>
+        <td><%= job.title %></td>
+        <td><%= job.company.name %></td>
+        <td><%= job.location %></td>
+        <td><%= number_to_currency(job.ctc, unit: "₹", precision: 0) %></td>
+        <td><%= link_to "Apply", new_application_path(job_role_id: job.id) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Your Applications</h2>
+<table border="1" cellpadding="5" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Job Title</th>
+      <th>Company</th>
+      <th>Status</th>
+      <th>Resume</th>
+      <th>Applied At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @applications.each do |application| %>
+      <tr>
+        <td><%= application.job_role.title %></td>
+        <td><%= application.job_role.company.name %></td>
+        <td><%= application.status.capitalize %></td>
+        <td>
+          <% if application.resume.attached? %>
+            <%= link_to "View Resume", rails_blob_path(application.resume, disposition: "attachment"), target: "_blank" %>
+          <% else %>
+            No Resume
+          <% end %>
+        </td>
+        <td><%= application.created_at.strftime("%b %d, %Y") %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

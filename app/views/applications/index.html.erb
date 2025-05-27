@@ -1,0 +1,28 @@
+<h1>Your Applications</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Job Role</th>
+      <th>Status</th>
+      <th>Applied At</th>
+      <th>Resume</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @applications.each do |application| %>
+      <tr>
+        <td><%= application.job_role.title %></td>
+        <td><%= application.status %></td>
+        <td><%= application.created_at.strftime("%b %d, %Y") %></td>
+        <td>
+          <% if application.resume.attached? %>
+            <%= link_to "Download Resume", rails_blob_path(application.resume, disposition: "attachment"), target: "_blank", rel: "noopener" %>
+          <% else %>
+            No Resume
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

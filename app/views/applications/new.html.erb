@@ -1,0 +1,15 @@
+<h1>Apply for a Job Role</h1>
+
+<%= form_with model: @application, local: true, html: { multipart: true } do |f| %>
+  <div>
+    <%= f.label :job_role_id, "Select Job Role" %><br>
+    <%= f.collection_select :job_role_id, @job_roles, :id, :title, prompt: "Choose a job" %>
+  </div>
+  <div>
+    <%= f.label :resume, "Upload your Resume" %><br>
+    <%= f.file_field :resume %>
+  </div>
+  <div>
+    <%= f.submit "Apply" %>
+  </div>
+<% end %>
